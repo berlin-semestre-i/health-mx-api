@@ -32,7 +32,6 @@ custom:
   accountId: ${env:ACCOUNT_ID}
   appSync:
     name: ${self:custom.projectPrefix}
-    apiId: ${env:API_ID, ''}
     apiKey: ${env:API_KEY, ''}
     authenticationType: API_KEY
     mappingTemplatesLocation: app/mapping-templates
