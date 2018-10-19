@@ -1,0 +1,32 @@
+DeployedVersionServiceRole:
+  Type: AWS::IAM::Role
+  Properties:
+    RoleName: ${self:custom.projectPrefix}-DeployedVersionRole
+    AssumeRolePolicyDocument:
+      Version: '2012-10-17'
+      Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+              - lambda.amazonaws.com
+          Action:
+            - sts:AssumeRole
+    Policies:
+      - PolicyName: ${self:custom.projectPrefix}-DeployedVersionRole-Policy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - lambda:invokeFunction
+              Resource:
+                - arn:aws:lambda:${self:provider.region}:${env:ACCOUNT_ID}:function:${self:functions.DeployedVersion.name}
+                - arn:aws:lambda:${self:provider.region}:${env:ACCOUNT_ID}:function:${self:functions.DeployedVersion.name}:*
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                - logs:FilterLogEvents
+              Resource:
+                - arn:aws:logs:*

@@ -1,0 +1,9 @@
+DeployedVersion:
+  name: ${self:custom.projectPrefix}-DeployedVersionHandler
+  role: DeployedVersionServiceRole
+  handler: deployedVersion/handler.deployedVersionHandler
+  description: Retrieve information on API git version
+  events:
+    - http:
+        path: /version
+        method: get

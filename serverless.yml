@@ -1,0 +1,40 @@
+service:
+  name: Health-MX-API
+  publish: false
+
+package:
+  exclude: ${file(./serverless/excludedFiles.yml)}
+
+plugins:
+  - serverless-appsync-plugin
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.12
+  stage: ${env:STAGE, 'dev'}
+  region: ${env:AWS_REGION, env:REGION, 'us-east-2'}
+  memorySize: 512 # in MB
+  timeout: 120 # in seconds
+  environment: ${file(./serverless/env.yml):environment}
+
+functions:
+  DeployedVersion: ${file(./serverless/functions.yml):DeployedVersion}
+
+resources:
+  Resources:
+    DeployedVersionServiceRole: ${file(./serverless/roles.yml):DeployedVersionServiceRole}
+
+custom:
+  projectPrefix: ${self.provider.stage}-${self:service}
+  accountId: ${env:ACCOUNT_ID}
+  appSync:
+    name: ${self:custom.projectPrefix} projectPrefix
+    apiId: ${env:API_ID, ''}
+    apiKey: ${env:API_KEY, ''}
+    authenticationType: API_KEY
+    mappingTemplatesLocation: app/mapping-templates
+    mappingTemplates: ${file(./serverless/mapping.autogen.yml)}
+    schema: app/global.schema.autogen.graphql
+    serviceRole: AppSyncLambdaServiceRole
+    dataSources: ${file(./serverless/appSyncDataSources.yml):dataSources}
