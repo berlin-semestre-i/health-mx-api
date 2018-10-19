@@ -3,7 +3,7 @@ service:
   publish: false
 
 package:
-  exclude: ${file(./serverless/excludedFiles.yml)}
+  exclude: ${file(./serverless/excludeFiles.yml)}
 
 plugins:
   - serverless-appsync-plugin
@@ -11,7 +11,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs8.12
+  runtime: nodejs8.10
   stage: ${env:STAGE, 'dev'}
   region: ${env:AWS_REGION, env:REGION, 'us-east-2'}
   memorySize: 512 # in MB
@@ -19,17 +19,19 @@ provider:
   environment: ${file(./serverless/env.yml):environment}
 
 functions:
+  GraphqlHandler: ${file(./serverless/functions.yml):GraphqlHandler}
   DeployedVersion: ${file(./serverless/functions.yml):DeployedVersion}
 
 resources:
   Resources:
+    AppSyncLambdaServiceRole: ${file(./serverless/roles.yml):AppSyncLambdaServiceRole}
     DeployedVersionServiceRole: ${file(./serverless/roles.yml):DeployedVersionServiceRole}
 
 custom:
-  projectPrefix: ${self.provider.stage}-${self:service}
+  projectPrefix: ${self:provider.stage}-${self:service}
   accountId: ${env:ACCOUNT_ID}
   appSync:
-    name: ${self:custom.projectPrefix} projectPrefix
+    name: ${self:custom.projectPrefix}
     apiId: ${env:API_ID, ''}
     apiKey: ${env:API_KEY, ''}
     authenticationType: API_KEY
