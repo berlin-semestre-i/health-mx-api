@@ -5,7 +5,7 @@
   "scripts": {
     "appSync": "yarn clean && node ./app/lib/appSyncBuilder/appSyncMain.js",
     "clean": "find . -type f -name '*.autogen.*' -delete",
-    "deploy": "yarn run appSync && sls deploy",
+    "deploy": "yarn run appSync && sls deploy && sls update-appsync",
     "lint": "eslint . --ext .js --cache --fix",
     "seed": "node ./app/db/seeds/seed.js",
     "test": "NODE_ENV=test yarn jest",

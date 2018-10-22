@@ -1,0 +1,6 @@
+{
+  "endpoint": "https://vault.michellesagnelli.com",
+  "engine": "kv2",
+  "project": "health-mx/api",
+  "environment": "<%= env('STAGE') %>"
+}
