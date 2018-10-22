@@ -12,3 +12,4 @@
 - serverless/**
 - yarn-error.log
 - yarn.lock
+- sonar/*
