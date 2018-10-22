@@ -1,0 +1,14 @@
+- .eslintcache
+- .eslintignore
+- .eslintrc
+- .github/**
+- .wizetorus.json
+- '**/*.DS_Store'
+- '**/test/**'
+- coverage/**/**
+- docs/**/**
+- gulpfile.js
+- README.md
+- serverless/**
+- yarn-error.log
+- yarn.lock

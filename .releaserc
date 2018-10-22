@@ -1,0 +1,22 @@
+{
+  "branch": "master",
+  "tagFormat": "v${version}",
+  "ci": true,
+  "dryRun": false,
+  "debug": false,
+  "verifyConditions": ["@semantic-release/changelog", "@semantic-release/github"],
+  "analyzeCommits": "@semantic-release/commit-analyzer",
+  "verifyRelease": [],
+  "generateNotes": ["@semantic-release/release-notes-generator"],
+  "prepare":[
+    "@semantic-release/changelog",
+    {
+      "path": "@semantic-release/git",
+      "assets": ["CHANGELOG.md"],
+      "message": "chore(changelog): update changelog for release ${nextRelease.version} --skip \n\n${nextRelease.notes}"
+    }
+  ],
+  "publish": ["@semantic-release/github"],
+  "success": ["@semantic-release/github"],
+  "fail": ["@semantic-release/github"]
+}

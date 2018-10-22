@@ -1,0 +1,7 @@
+dataSources:
+  - type: AWS_LAMBDA
+    name: GraphqlHandler
+    description: Lambda Function to Graphql
+    config:
+      lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${env:ACCOUNT_ID}:function:${self:functions.GraphqlHandler.name}
+      serviceRoleArn: arn:aws:iam::${env:ACCOUNT_ID}:role/${self:custom.projectPrefix}-AppSyncRole

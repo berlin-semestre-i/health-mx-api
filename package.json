@@ -1,0 +1,79 @@
+{
+  "name": "health-mx-api",
+  "version": "0.0.0-development",
+  "description": "Health-MX Serverless API",
+  "scripts": {
+    "appSync": "yarn clean && node ./app/lib/appSyncBuilder/appSyncMain.js",
+    "clean": "find . -type f -name '*.autogen.*' -delete",
+    "deploy": "yarn run appSync && sls deploy && sls update-appsync",
+    "lint": "eslint . --ext .js --cache --fix",
+    "seed": "node ./app/db/seeds/seed.js",
+    "test": "NODE_ENV=test yarn jest",
+    "undeploy": "sls delete-appsync && sls remove",
+    "semantic-release": "semantic-release"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/@commitlint/prompt"
+    }
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berlin-semestre-i/health-mx-api"
+  },
+  "keywords": [
+    "IMSS",
+    "Health-MX"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/berlin-semestre-i/health-mx-api/issues"
+  },
+  "homepage": "https://github.com/berlin-semestre-i/health-mx-api#readme",
+  "dependencies": {
+    "boom": "^7.2.0",
+    "graphql": "^14.0.2",
+    "graphql-s2s": "^0.17.2",
+    "http-status-codes": "^1.3.0",
+    "merge-graphql-schemas": "^1.5.7",
+    "moment": "^2.22.2",
+    "readdirp": "^2.2.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@commitlint/config-angular": "^7.1.2",
+    "@commitlint/prompt": "^7.2.1",
+    "@semantic-release/changelog": "^3.0.1",
+    "@semantic-release/git": "^7.0.5",
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-sort-requires": "^2.1.0",
+    "husky": "^1.1.2",
+    "jest": "^23.6.0",
+    "jest-cli": "^23.6.0",
+    "serverless": "^1.32.0",
+    "serverless-appsync-plugin": "^1.0.5",
+    "serverless-offline": "^3.27.0",
+    "yamljs": "^0.3.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/app/**/*.js",
+      "!**/app/lib/appSyncBuilder/test/__testFiles__/**/*.js"
+    ]
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn test",
+      "pre-push": "yarn lint && yarn test",
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+GraphqlHandler:
+  role: AppSyncLambdaServiceRole
+  handler: app/handler.graphqlHandler
+  name: ${self:custom.projectPrefix}-GraphqlHandler
+  description: Health-MX-API lambda function for handling GraphQL requests
+  events:
+  - http:
+      path: /grahpql
+      method: post
+
+DeployedVersion:
+  name: ${self:custom.projectPrefix}-DeployedVersionHandler
+  role: DeployedVersionServiceRole
+  handler: deployedVersion/handler.deployedVersionHandler
+  description: Retrieve information on API git version
+  events:
+    - http:
+        path: /version
+        method: get
