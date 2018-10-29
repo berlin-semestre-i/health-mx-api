@@ -26,6 +26,8 @@ resources:
   Resources:
     AppSyncLambdaServiceRole: ${file(./serverless/roles.yml):AppSyncLambdaServiceRole}
     DeployedVersionServiceRole: ${file(./serverless/roles.yml):DeployedVersionServiceRole}
+    RoleTable: ${file(./serverless/tables.yml):RoleTable}
+    UserTable: ${file(./serverless/tables.yml):UserTable}
 
 custom:
   projectPrefix: ${self:provider.stage}-${self:service}
