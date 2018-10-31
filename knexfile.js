@@ -1,5 +1,5 @@
 module.exports = {
-  production: {
+  prod: {
     client: 'pg',
     connection: {
       host: process.env.RDS_ENDPOINT,
