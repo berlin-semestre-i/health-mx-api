@@ -3,11 +3,11 @@ RoleTable:
   DeletionPolicy: Retain
   Properties:
     AttributeDefinitions:
-      AttributeName: name
-      AttributeType: S
+      - AttributeName: name
+        AttributeType: S
     KeySchema:
-      AttributeName: id
-      KeyType: HASH
+      - AttributeName: name
+        KeyType: HASH
     ProvisionedThroughput:
       ReadCapacityUnits: 1
       WriteCapacityUnits: 1
@@ -18,11 +18,11 @@ UserTable:
   DeletionPolicy: Retain
   Properties:
     AttributeDefinitions:
-      AttributeName: id
-      AttributeType: S
+      - AttributeName: id
+        AttributeType: S
     KeySchema:
-      AttributeName: id
-      KeyType: HASH
+      - AttributeName: id
+        KeyType: HASH
     ProvisionedThroughput:
       ReadCapacityUnits: 1
       WriteCapacityUnits: 1
