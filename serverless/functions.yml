@@ -5,7 +5,7 @@ GraphqlHandler:
   description: Health-MX-API lambda function for handling GraphQL requests
   events:
   - http:
-      path: /grahpql
+      path: /graphql
       method: post
 
 DeployedVersion:
