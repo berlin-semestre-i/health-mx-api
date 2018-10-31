@@ -12,8 +12,8 @@ plugins:
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: ${env:STAGE, 'dev'}
-  region: ${env:AWS_REGION, env:REGION, 'us-east-2'}
+  stage: ${self:provider.environment.STAGE}
+  region: ${self:provider.environment.REGION}
   memorySize: 512 # in MB
   timeout: 120 # in seconds
   environment: ${file(./serverless/env.yml):environment}
@@ -26,13 +26,15 @@ resources:
   Resources:
     AppSyncLambdaServiceRole: ${file(./serverless/roles.yml):AppSyncLambdaServiceRole}
     DeployedVersionServiceRole: ${file(./serverless/roles.yml):DeployedVersionServiceRole}
+    RDSSecurityGroup: ${file(./serverless/resources.yml):RDSSecurityGroup}
+    RDSInstance: ${file(./serverless/resources.yml):RDSInstance}
 
 custom:
   projectPrefix: ${self:provider.stage}-${self:service}
-  accountId: ${env:ACCOUNT_ID}
+  accountId: ${self:provider.environment.ACCOUNT_ID}
   appSync:
     name: ${self:custom.projectPrefix}
-    apiKey: ${env:API_KEY, ''}
+    apiKey: ${self:provider.environment.API_KEY}
     authenticationType: API_KEY
     mappingTemplatesLocation: app/mapping-templates
     mappingTemplates: ${file(./serverless/mapping.autogen.yml)}

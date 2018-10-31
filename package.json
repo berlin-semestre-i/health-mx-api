@@ -5,12 +5,14 @@
   "scripts": {
     "appSync": "yarn clean && node ./app/lib/appSyncBuilder/appSyncMain.js",
     "clean": "find . -type f -name '*.autogen.*' -delete",
-    "deploy": "yarn run appSync && sls deploy",
+    "deploy": "yarn run appSync && sls deploy && yarn run migrate",
+    "init-deploy": "yarn run appSync && sls deploy",
     "lint": "eslint . --ext .js --cache --fix",
     "seed": "node ./app/db/seeds/seed.js",
     "test": "NODE_ENV=test yarn jest",
     "undeploy": "sls delete-appsync && sls remove",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "migrate": "knex migrate:latest --env production"
   },
   "config": {
     "commitizen": {
@@ -38,8 +40,11 @@
     "graphql": "^14.0.2",
     "graphql-s2s": "^0.17.2",
     "http-status-codes": "^1.3.0",
+    "knex": "^0.15.2",
     "merge-graphql-schemas": "^1.5.7",
     "moment": "^2.22.2",
+    "objection": "^1.4.0",
+    "pg": "^7.6.0",
     "readdirp": "^2.2.1",
     "uuid": "^3.3.2"
   },
