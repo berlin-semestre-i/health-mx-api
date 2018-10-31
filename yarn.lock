@@ -599,6 +599,21 @@ aws-sdk@^2.228.0:
     uuid "3.1.0"
     xml2js "0.4.19"
 
+aws-sdk@^2.49.0:
+  version "2.344.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.344.0.tgz#950516888e9e8a85c006f3eb6b7fda28646f5c01"
+  integrity sha512-VGiVgX4+qk/67o8GL3qeHK1KC4r73jlsJoE6ZSPsujX6UjP0PgrfUL1J9cdW/sgXc0lzmK3ksdKqZordFZ4/xw==
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.19"
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -1784,6 +1799,13 @@ duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
+
+dynamo-node@^1.1.13:
+  version "1.1.13"
+  resolved "https://registry.yarnpkg.com/dynamo-node/-/dynamo-node-1.1.13.tgz#0e740336438f879a700ba5a2e6fcbf67a0381ad0"
+  integrity sha1-DnQDNkOPh5pwC6Wi5vy/Z6A4GtA=
+  dependencies:
+    aws-sdk "^2.49.0"
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"

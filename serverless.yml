@@ -28,6 +28,8 @@ resources:
     DeployedVersionServiceRole: ${file(./serverless/roles.yml):DeployedVersionServiceRole}
     RDSSecurityGroup: ${file(./serverless/resources.yml):RDSSecurityGroup}
     RDSInstance: ${file(./serverless/resources.yml):RDSInstance}
+    RoleTable: ${file(./serverless/tables.yml):RoleTable}
+    UserTable: ${file(./serverless/tables.yml):UserTable}
 
 custom:
   projectPrefix: ${self:provider.stage}-${self:service}

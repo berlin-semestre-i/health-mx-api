@@ -64,3 +64,15 @@ DeployedVersionServiceRole:
                 - logs:FilterLogEvents
               Resource:
                 - arn:aws:logs:*
+            - Effect: Allow
+              Action:
+                - dynamodb:BatchGetItem
+                - dynamodb:BatchWriteItem
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+                - dynamodb:PutItem
+                - dynamodb:Scan
+                - dynamodb:Query
+              Resource:
+                - arn:aws:dynamodb:${self:provider.region}:${env:ACCOUNT_ID}:table/${self:provider.environment.DYNAMODB}.Role
+                - arn:aws:dynamodb:${self:provider.region}:${env:ACCOUNT_ID}:table/${self:provider.environment.DYNAMODB}.User

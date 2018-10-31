@@ -37,6 +37,7 @@
   "homepage": "https://github.com/berlin-semestre-i/health-mx-api#readme",
   "dependencies": {
     "boom": "^7.2.0",
+    "dynamo-node": "^1.1.13",
     "graphql": "^14.0.2",
     "graphql-s2s": "^0.17.2",
     "http-status-codes": "^1.3.0",
