@@ -1,0 +1,32 @@
+schema {
+  query: Query
+}
+
+type Query {
+  testGetEnumDefinition(contentID: ID!): ContentDefinition
+  getContentDefinition(contentID: ID!): ContentDefinition
+}
+
+enum PropertyDefinitionType {
+  STRING
+  ARRAY
+  BOOL
+}
+
+type PropertyDefinition {
+  name: String!
+  value: PropertyDefinitionType!
+}
+
+type ContentDefinition {
+  id: ID
+  type: ContentType
+  config: [PropertyDefinition]
+  valueFormat: [PropertyDefinition]
+}
+
+enum ContentType {
+  TEXT
+  IMAGE
+  COMPOUND
+}

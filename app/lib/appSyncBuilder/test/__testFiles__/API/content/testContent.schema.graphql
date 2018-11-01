@@ -1,0 +1,15 @@
+type Query {
+  getContentDefinition(contentID: ID!): ContentDefinition
+}
+
+type PropertyDefinition {
+  name: String!
+  value: PropertyDefinitionType!
+}
+
+type ContentDefinition {
+  id: ID
+  type: ContentType
+  config: [PropertyDefinition]
+  valueFormat: [PropertyDefinition]
+}
