@@ -26,6 +26,9 @@ resources:
   Resources:
     AppSyncLambdaServiceRole: ${file(./serverless/roles.yml):AppSyncLambdaServiceRole}
     DeployedVersionServiceRole: ${file(./serverless/roles.yml):DeployedVersionServiceRole}
+    SNSRole: ${file(./serverless/roles.yml):SNSRole}
+    UserPool: ${file(./serverless/resources.yml):UserPool}
+    UserPoolClient: ${file(./serverless/resources.yml):UserPoolClient}
     RDSSecurityGroup: ${file(./serverless/resources.yml):RDSSecurityGroup}
     RDSInstance: ${file(./serverless/resources.yml):RDSInstance}
     RoleTable: ${file(./serverless/tables.yml):RoleTable}

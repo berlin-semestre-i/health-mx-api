@@ -44,6 +44,28 @@ AppSyncLambdaServiceRole:
                 - arn:aws:dynamodb:${self:provider.region}:${env:ACCOUNT_ID}:table/${self:provider.environment.DYNAMODB}.Role
                 - arn:aws:dynamodb:${self:provider.region}:${env:ACCOUNT_ID}:table/${self:provider.environment.DYNAMODB}.User
 
+SNSRole:
+  Type: AWS::IAM::Role
+  Properties:
+    RoleName: ${self:custom.projectPrefix}-SNSRole
+    AssumeRolePolicyDocument: 
+      Version: '2012-10-17'
+      Statement:
+        - Effect: Allow
+          Principal: 
+            Service: 
+              - cognito-idp.amazonaws.com
+          Action: 
+            - sts:AssumeRole
+    Policies:
+      - PolicyName: ${self:custom.projectPrefix}-CognitoSNSPolicy
+        PolicyDocument: 
+          Version: '2012-10-17'
+          Statement: 
+            - Effect: Allow
+              Action: sns:publish
+              Resource: '*'
+
 DeployedVersionServiceRole:
   Type: AWS::IAM::Role
   Properties:

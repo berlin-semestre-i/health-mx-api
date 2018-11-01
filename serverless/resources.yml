@@ -1,3 +1,64 @@
+# Cognito resources
+UserPool:
+  Type: AWS::Cognito::UserPool
+  Properties:
+    UserPoolName: ${self:custom.projectPrefix}-UserPool
+    AdminCreateUserConfig:
+      AllowAdminCreateUserOnly: true
+      UnusedAccountValidityDays: 7
+      InviteMessageTemplate: ${self:provider.environment.REGISTER_INVITATION}
+    AutoVerifiedAttributes:
+      - phone_number
+      - email
+    MfaConfiguration: OPTIONAL
+    Policies:
+      PasswordPolicy:
+        MinimumLength: 8
+        RequireLowercase: true
+        RequireUppercase: true
+        RequireNumbers: true
+        RequireSymbols: true
+    SmsConfiguration:
+      ExternalId: ${self:custom.projectPrefix}-external
+      SnsCallerArn:
+        Fn::GetAtt: [SNSRole, Arn]
+    Schema:
+      - Name: name
+        AttributeDataType: String
+        Mutable: true
+        Required: true
+      - Name: family_name
+        AttributeDataType: String
+        Mutable: true
+        Required: true
+      - Name: birth_date
+        AttributeDataType: DateTime
+        Mutable: true
+        Required: false
+      - Name: ssn
+        AttributeDataType: String
+        Mutable: false
+        Required: false
+      - Name: email
+        AttributeDataType: String
+        Mutable: false
+        Required: false
+      - Name: phone_number
+        AttributeDataType: String
+        Mutable: false
+        Required: true
+    UsernameAttributes:
+      - email
+      - phone_number
+
+UserPoolClient:
+  Type: AWS::Cognito::UserPoolClient
+  Properties:
+    ClientName: ${self:custom.projectPrefix}-UserPoolClient
+    GenerateSecret: false
+    UserPoolId:
+      Ref: UserPool
+
 # RDS resources
 RDSSecurityGroup:
   Type: AWS::EC2::SecurityGroup
