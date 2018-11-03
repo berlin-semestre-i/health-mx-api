@@ -6,7 +6,6 @@ UserPool:
     AdminCreateUserConfig:
       AllowAdminCreateUserOnly: true
       UnusedAccountValidityDays: 7
-      InviteMessageTemplate: ${self:provider.environment.REGISTER_INVITATION}
     AutoVerifiedAttributes:
       - phone_number
       - email
@@ -31,11 +30,11 @@ UserPool:
         AttributeDataType: String
         Mutable: true
         Required: true
-      - Name: birth_date
-        AttributeDataType: DateTime
-        Mutable: true
-        Required: false
       - Name: ssn
+        AttributeDataType: String
+        Mutable: false
+        Required: false
+      - Name: curp
         AttributeDataType: String
         Mutable: false
         Required: false
@@ -46,7 +45,7 @@ UserPool:
       - Name: phone_number
         AttributeDataType: String
         Mutable: false
-        Required: true
+        Required: false
     UsernameAttributes:
       - email
       - phone_number
