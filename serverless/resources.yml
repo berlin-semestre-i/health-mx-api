@@ -46,7 +46,7 @@ UserPool:
         AttributeDataType: String
         Mutable: false
         Required: false
-    UsernameAttributes:
+    AliasAttributes:
       - email
       - phone_number
 

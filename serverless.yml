@@ -40,7 +40,12 @@ custom:
   appSync:
     name: ${self:custom.projectPrefix}
     apiKey: ${self:provider.environment.API_KEY}
-    authenticationType: API_KEY
+    authenticationType: AMAZON_COGNITO_USER_POOLS
+    userPoolConfig:
+      awsRegion: ${self:provider.region}
+      defaultAction: ALLOW
+      userPoolId:
+        Ref: UserPoolClient
     mappingTemplatesLocation: app/mapping-templates
     mappingTemplates: ${file(./serverless/mapping.autogen.yml)}
     schema: app/global.schema.autogen.graphql
