@@ -1,0 +1,10 @@
+type Query {
+  articles: [Article!]!
+    @aws_auth(cognito_groups: ["Medics", "Nurses"])
+}
+
+type Article {
+  title: String!
+  urlToImage: AWSURL!
+  url: AWSURL!
+}

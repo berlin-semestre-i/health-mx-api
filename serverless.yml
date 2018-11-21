@@ -26,9 +26,6 @@ resources:
   Resources:
     AppSyncLambdaServiceRole: ${file(./serverless/roles.yml):AppSyncLambdaServiceRole}
     DeployedVersionServiceRole: ${file(./serverless/roles.yml):DeployedVersionServiceRole}
-    SNSRole: ${file(./serverless/roles.yml):SNSRole}
-    UserPool: ${file(./serverless/resources.yml):UserPool}
-    UserPoolClient: ${file(./serverless/resources.yml):UserPoolClient}
     RDSSecurityGroup: ${file(./serverless/resources.yml):RDSSecurityGroup}
     RDSInstance: ${file(./serverless/resources.yml):RDSInstance}
     RoleTable: ${file(./serverless/tables.yml):RoleTable}
@@ -40,12 +37,11 @@ custom:
   appSync:
     name: ${self:custom.projectPrefix}
     apiKey: ${self:provider.environment.API_KEY}
-    authenticationType: AMAZON_COGNITO_USER_POOLS
-    userPoolConfig:
-      awsRegion: ${self:provider.region}
-      defaultAction: ALLOW
-      userPoolId:
-        Ref: UserPoolClient
+    authenticationType: API_KEY
+    # userPoolConfig:
+    #   awsRegion: ${self:provider.region}
+    #   defaultAction: ALLOW
+    #   userPoolId: ${self:provider.environment.USER_POOL_CLIENT_ID}
     mappingTemplatesLocation: app/mapping-templates
     mappingTemplates: ${file(./serverless/mapping.autogen.yml)}
     schema: app/global.schema.autogen.graphql
