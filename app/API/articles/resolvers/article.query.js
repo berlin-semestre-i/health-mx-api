@@ -1,10 +1,6 @@
 const news = require('../../../lib/news')
 
-const articles = async () => {
-  const articleArray = await news.getHealthData()
-
-  return articleArray
-}
+const articles = async () => news.getData()
 
 module.exports = {
   Query: {

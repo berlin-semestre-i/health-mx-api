@@ -6,17 +6,13 @@ const newsapi = new NewsAPI(NEWS_API_KEY || 'none')
 
 const news = {
 
-  getData: async () => newsapi.v2.everything({
-    q: 'salud',
-    language: 'es',
-    pageSize: 4,
-  }),
-
-  getHealthData: async () => {
-    const response = await news.getData()
-    console.log(response)
-    const data = response.articles
-    const articles = data.map(article => ({
+  getData: async () => {
+    const response = await newsapi.v2.everything({
+      q: 'salud',
+      language: 'es',
+      pageSize: 4,
+    })
+    const articles = response.articles.map(article => ({
       title: article.title,
       url: article.url,
       urlToImage: article.urlToImage,

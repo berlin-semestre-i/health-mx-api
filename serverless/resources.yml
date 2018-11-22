@@ -18,7 +18,7 @@ RDSInstance:
     EngineVersion: 10.4
     PubliclyAccessible: false
     AllocatedStorage: 20
-    MultiAZ: true
+    MultiAZ: false
     DBName: ${self:provider.environment.RDS_DB_NAME}
     MasterUsername: ${self:provider.environment.RDS_DB_MASTER_USER}
     MasterUserPassword: ${self:provider.environment.RDS_DB_MASTER_PWD}

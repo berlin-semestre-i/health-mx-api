@@ -1,6 +1,5 @@
 type Query {
   articles: [Article!]!
-    @aws_auth(cognito_groups: ["Medics", "Nurses"])
 }
 
 type Article {
