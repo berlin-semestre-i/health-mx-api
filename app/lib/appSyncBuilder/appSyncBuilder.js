@@ -14,7 +14,6 @@ const {
   serverlessDataSource,
 } = require('./mappers')
 
-
 const dataSourceRegex = /## \[DataSource:(\w+)] \*\*/g
 
 const createGlobalSchema = (folderPath) => {
@@ -107,7 +106,7 @@ const addToExistingMappers = ({ name, fullPath }, mappers = [], operations) => {
 
     if (!customDataSource) {
       throw Error(`No datasource defined in ${name} file.
-          Place ## [DataSource:YourDataSource] ** in the top of the file to define it.`)
+      Place ## [DataSource:YourDataSource] ** in the top of the file to define it.`)
     }
 
     const mapperWithoutDataSource = userDefinedMapper.replace(dataSourceRegex, '')
