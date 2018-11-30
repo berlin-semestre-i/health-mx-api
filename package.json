@@ -12,7 +12,7 @@
     "test": "NODE_ENV=test yarn jest",
     "undeploy": "sls delete-appsync && sls remove",
     "semantic-release": "semantic-release",
-    "migrate": "knex migrate:latest --env prod"
+    "migrate": "knex migrate:latest --env production"
   },
   "config": {
     "commitizen": {
@@ -37,6 +37,7 @@
   "homepage": "https://github.com/berlin-semestre-i/health-mx-api#readme",
   "dependencies": {
     "@casl/ability": "^2.5.1",
+    "axios": "^0.18.0",
     "boom": "^7.2.0",
     "dynamo-node": "^1.1.13",
     "graphql": "^14.0.2",
@@ -48,6 +49,7 @@
     "lodash": "^4.17.11",
     "merge-graphql-schemas": "^1.5.7",
     "moment": "^2.22.2",
+    "newsapi": "^2.4.0",
     "objection": "^1.4.0",
     "pg": "^7.6.0",
     "readdirp": "^2.2.1",

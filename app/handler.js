@@ -1,11 +1,10 @@
 const Boom = require('boom')
-const Knex = require('knex')
 const path = require('path')
 const { fileLoader, mergeResolvers } = require('merge-graphql-schemas')
 const { Model } = require('objection')
 const { zipObject } = require('lodash')
 
-const connection = require('../knexfile')
+const db = require('./db/medic/db.js')
 const directives = require('./config/directives')
 const handleDynamoError = require('./db/admin/dynamoDBErrorHandler')
 const logger = require('./lib/logger')
@@ -30,8 +29,7 @@ const processDirectives = async (event) => {
 }
 
 module.exports.graphqlHandler = async (event) => {
-  // const knex = Knex(process.env.NODE_ENV === 'develop' ? connection.develop : connection.prod)
-  const knex = Knex(connection.production)
+  const { knex } = db
 
   Model.knex(knex)
   try {
@@ -62,7 +60,5 @@ module.exports.graphqlHandler = async (event) => {
 
     logger.error(error)
     throw (LOG_LEVEL === 'debug') ? error : new Error('InternalError')
-  } finally {
-    knex.destroy()
   }
 }
