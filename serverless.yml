@@ -33,6 +33,7 @@ resources:
     RDSInstance: ${file(./serverless/resources.yml):RDSInstance}
     RoleTable: ${file(./serverless/tables.yml):RoleTable}
     UserTable: ${file(./serverless/tables.yml):UserTable}
+    SessionTable: ${file(./serverless/tables.yml):SessionTable}
 
 custom:
   projectPrefix: ${self:provider.stage}-${self:service}

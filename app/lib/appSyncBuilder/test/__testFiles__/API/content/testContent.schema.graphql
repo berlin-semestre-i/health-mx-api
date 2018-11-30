@@ -1,4 +1,5 @@
 type Query {
+  # &authorize
   getContentDefinition(contentID: ID!): ContentDefinition
 }
 

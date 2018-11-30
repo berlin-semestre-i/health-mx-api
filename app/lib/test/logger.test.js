@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-process.env.LOG_LEVEL = 'info'
 const moment = require('moment')
 
 const logger = require('../logger')
+
+process.env.LOG_LEVEL = 'info'
 
 jest.mock('moment')
 const messageText = 'My dummy message'
@@ -41,7 +42,7 @@ describe('Logger behaviour', () => {
   })
 
   it('should only call the allowed levels of logging', () => {
-    const numberCalls = 3
+    const numberCalls = 4
     console.log = jest.fn()
     logger.error(messageText)
     logger.warn(messageText)

@@ -1,15 +1,22 @@
 const fs = require('fs')
 const path = require('path')
+const { getSchemaAST } = require('graphql-s2s').graphqls2s
+
 const {
   createGlobalSchema,
   getLambdaResolversList,
 } = require('../appSyncBuilder')
 
+const getExpectedSchema = () => {
+  const expectedGlobalSchemaFile = './__testFiles__/global.schema.test.graphql'
+  const expectedSchema = fs.readFileSync(path.join(__dirname, expectedGlobalSchemaFile), 'utf8')
+  return expectedSchema
+}
+
 describe('CreateGlobalSchema', () => {
   it('should generate a schema that contains all the schemas defined in separate files', () => {
     const globalSchema = createGlobalSchema('./test/__testFiles__/API')
-    const expectedGlobalSchemaFile = './__testFiles__/global.schema.test.graphql'
-    const expectedSchema = fs.readFileSync(path.join(__dirname, expectedGlobalSchemaFile), 'utf8')
+    const expectedSchema = getExpectedSchema()
     expect(globalSchema).toBe(expectedSchema)
   })
 
@@ -24,16 +31,20 @@ describe('CreateGlobalSchema', () => {
 })
 
 describe('GetResolversList', () => {
+  const expectedSchema = getExpectedSchema()
+  const schemasAST = getSchemaAST(expectedSchema)
+
   it('should return a list with the existing resolvers in the specified path', () => {
-    const resolversList = getLambdaResolversList('./test/__testFiles__/API/')
+    const resolversList = getLambdaResolversList('./test/__testFiles__/API/', schemasAST)
     const expectedResolversList = [
-      { operationName: 'getContentDefinition', operationType: 'Query' },
-      { operationName: 'createContentDefinition', operationType: 'Mutation' },
+      { operationName: 'getContentDefinition', operationType: 'Query', directives: ['authorize'] },
+      { operationName: 'createContentDefinition', operationType: 'Mutation', directives: [] },
     ]
     expect(resolversList).toEqual(expectedResolversList)
   })
 
   it('should return an empty array when passing a not valid path', () => {
-    expect(getLambdaResolversList('./folderThatDoesNotExists')).toEqual([])
+    const resolversList = getLambdaResolversList('./folderThatDoesNotExists', schemasAST)
+    expect(resolversList).toEqual([])
   })
 })

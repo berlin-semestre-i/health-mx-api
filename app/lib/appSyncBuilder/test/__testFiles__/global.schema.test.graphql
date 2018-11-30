@@ -4,6 +4,7 @@ schema {
 
 type Query {
   testGetEnumDefinition(contentID: ID!): ContentDefinition
+  # &authorize
   getContentDefinition(contentID: ID!): ContentDefinition
 }
 
