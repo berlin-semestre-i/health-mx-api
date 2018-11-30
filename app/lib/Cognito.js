@@ -39,7 +39,7 @@ const Cognito = {
       jwt.verify(authToken, getKey, {
         ignoreExpiration: false,
       }, (error, decoded) => {
-        if (error) reject(Boom.unauthorized(error.message)) 
+        if (error) reject(Boom.unauthorized(error.message))
         else if (decoded.iss !== USER_POOL) reject(Boom.unauthorized())
         else if (decoded.client_id !== USER_POOL_CLIENT_ID) reject(Boom.unauthorized())
         else resolve(decoded)
