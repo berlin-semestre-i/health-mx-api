@@ -1,14 +1,15 @@
 const genericResponseMapper = '$utils.toJson($context.result)'
 
-const lambdaRequestMapper = ({ operationType, operationName }) => `{
+const lambdaRequestMapper = options => `{
   "version": "2017-02-28",
   "operation": "Invoke",
   "payload": {
-    "type": "${operationType}",
-    "resolver": "${operationName}",
-    "parent": $utils.toJson($context.source),
     "args":  $utils.toJson($context.arguments),
-    "headers": $utils.toJson($context.request.headers)
+    "headers": $utils.toJson($context.request.headers),
+    "parent": $utils.toJson($context.source),
+    "resolver": "${options.operationName}",
+    "type": "${options.operationType}",
+    "directives": ${JSON.stringify(options.directives)},
   }
 }`
 

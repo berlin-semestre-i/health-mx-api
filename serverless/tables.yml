@@ -27,3 +27,17 @@ UserTable:
       ReadCapacityUnits: 1
       WriteCapacityUnits: 1
     TableName: ${self:provider.environment.DYNAMODB}.User
+
+SessionTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: userID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userID
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      TableName: ${self:provider.environment.DYNAMODB}.Session

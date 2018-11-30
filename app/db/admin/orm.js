@@ -4,7 +4,7 @@ let client
 
 const getClient = () => {
   if (!client) {
-    client = dynamoNode(process.env.REGION)
+    client = dynamoNode(process.env.AWS_REGION || process.env.REGION || 'us-east-1')
   }
   return client
 }

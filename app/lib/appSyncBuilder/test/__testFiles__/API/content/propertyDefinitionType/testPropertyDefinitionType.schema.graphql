@@ -1,9 +1,9 @@
 enum PropertyDefinitionType {
-    STRING
-    ARRAY
-    BOOL
+  STRING
+  ARRAY
+  BOOL
 }
 
 type Query {
-    testGetEnumDefinition(contentID: ID!): ContentDefinition
+  testGetEnumDefinition(contentID: ID!): ContentDefinition
 }

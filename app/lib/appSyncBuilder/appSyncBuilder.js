@@ -6,6 +6,7 @@ const readdirp = require('readdirp')
 const { fileLoader, mergeResolvers, mergeTypes } = require('merge-graphql-schemas')
 const { transpileSchema, getSchemaAST } = require('graphql-s2s').graphqls2s
 
+const directives = require('../../config/directives')
 const logger = require('../logger')
 const {
   createDefaultMappersAndDatasource,
@@ -15,6 +16,7 @@ const {
 } = require('./mappers')
 
 const dataSourceRegex = /## \[DataSource:(\w+)] \*\*/g
+const directiveNameRegex = /(&\S+\b)/ig
 
 const createGlobalSchema = (folderPath) => {
   const schemasPath = path.join(__dirname, folderPath, '/**/*.graphql')
@@ -36,9 +38,7 @@ const getMergedResolvers = (folderPath) => {
   return mergeResolvers(resolversArray)
 }
 
-const getAllOperations = (folderPath, globalSchema) => {
-  const schemasAST = getSchemaAST(globalSchema)
-
+const getAllOperations = (folderPath, schemasAST) => {
   const mergedResolvers = getMergedResolvers(folderPath)
   const operations = []
 
@@ -57,17 +57,49 @@ const getAllOperations = (folderPath, globalSchema) => {
   return operations
 }
 
-const getLambdaResolversList = (folderPath) => {
+const getDirectives = (schemasAST) => {
+  const result = {}
+  schemasAST.forEach((operation) => {
+    operation.blockProps.forEach((resolver) => {
+      const directivesTokens = resolver.comments.match(directiveNameRegex)
+      if (directivesTokens) {
+        const directiveNames = directivesTokens.map(token => token.replace(/&/g, ''))
+        /** It is needed to wrap the directives because they are associated
+        to an specific resolver and type. This code return an object like:
+        Query {
+          getAllCommunities: [directives],
+          getCommunity: [directive]
+        }
+        * */
+        if (directiveNames) {
+          if (!result[operation.name]) result[operation.name] = {}
+
+          directiveNames.forEach((directiveName) => {
+            if (!directives[directiveName]) throw Error(`The directive ${directiveName} is not defined`)
+          })
+          result[operation.name][resolver.details.name] = directiveNames
+        }
+      }
+    })
+  })
+
+  return result
+}
+
+const getLambdaResolversList = (folderPath, schemasAST) => {
   const mergedResolvers = getMergedResolvers(folderPath)
+  const directiveNames = getDirectives(schemasAST)
   const resolversList = []
 
   Object.keys(mergedResolvers).forEach((operationType) => {
-    if (Object.prototype.hasOwnProperty.call(mergedResolvers, operationType)) {
-      Object.keys(mergedResolvers[operationType])
-        .forEach((operationName) => {
-          resolversList.push({ operationType, operationName })
-        })
-    }
+    Object.keys(mergedResolvers[operationType]).forEach((operationName) => {
+      const options = { operationType, operationName, directives: [] }
+      if (directiveNames[operationType] && directiveNames[operationType][operationName]) {
+        options.directives = directiveNames[operationType][operationName]
+      }
+
+      resolversList.push(options)
+    })
   })
 
   return resolversList
@@ -133,9 +165,10 @@ const addToExistingMappers = ({ name, fullPath }, mappers = [], operations) => {
 }
 
 const createMappingTemplates = async (folderPath, globalSchema) => {
-  const existingLambdaMappers = getLambdaResolversList(folderPath)
+  const schemasAST = getSchemaAST(globalSchema)
+  const existingLambdaMappers = getLambdaResolversList(folderPath, schemasAST)
     .map(createDefaultMappersAndDatasource)
-  const operations = getAllOperations(folderPath, globalSchema)
+  const operations = getAllOperations(folderPath, schemasAST)
   const fileFilter = ['*.request.txt', '*.response.txt']
   const root = path.join(__dirname, folderPath)
   const recursiveDirExploration = new Promise((resolve, reject) => {

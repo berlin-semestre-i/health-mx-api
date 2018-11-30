@@ -27,16 +27,22 @@ const writeMapperTemplates = (mappers) => {
   })
 }
 
-const main = () => {
+const main = async () => {
   const APIPath = '../../API/'
   const globalSchemaFile = buildAbsolutePath('../../global.schema.autogen.graphql')
   const globalSchema = createGlobalSchema(APIPath)
   fs.writeFileSync(globalSchemaFile, globalSchema)
   logger.info('Global Schema was successfully created')
-  createMappingTemplates(APIPath, globalSchema)
-    .then((mappers) => { writeMapperTemplates(mappers) })
-    .then(() => logger.info('File mapping.autogen.yml was successfully created'))
-    .then(() => logger.info('AppSync builder has finished'))
+
+  const mappers = await createMappingTemplates(APIPath, globalSchema)
+  writeMapperTemplates(mappers)
+  logger.info('File mapping.autogen.yml was successfully created')
+  logger.info('AppSync builder has finished')
+
+  process.exit(0)
 }
 
-main()
+main().catch((error) => {
+  logger.error(error)
+  process.exit(1)
+})
